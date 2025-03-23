@@ -1,6 +1,15 @@
 blogimport
 ==========
 
+Update vicendominguez: 
+
+* I've added some sugar using a Groq AI to improve my posts and some issues.
+* The request rate to Groq is shit. I am the the free tier.
+* Fast-and-fourious code, objetive is to move blog. Sorry.
+* Check if the files previosly exist and it skip to do the job for that file again.
+
+--------
+
 Blogimport is a simple tool to convert Blogger's xml export data into
 [Hugo](http://hugo.spf13.com)-friendly markdown format.
 
