@@ -1,11 +1,11 @@
-blogimport
+blogimport Groq
 ==========
 
 🤖 **Update** vicendominguez: 
 
 * I've added some sugar using a Groq AI to improve my posts and some issues.
 * The request rate to Groq is shit. I am in the free tier.
-* Fast-and-fourious code, objetive is to move blog. Sorry.
+* Fast-and-fourious code, objetive is to move my blog. Sorry.
 * Check if the files previosly exist and it skip to do the job for that file again.
 
  ℹ️ I've created an ollama flavor version in the branch `sugarollama`
