@@ -2,6 +2,4 @@ module blogimport
 
 go 1.24.1
 
-require github.com/conneroisu/groq-go v0.9.5
-
-require github.com/buger/jsonparser v1.1.1 // indirect
+require github.com/ollama/ollama v0.6.2

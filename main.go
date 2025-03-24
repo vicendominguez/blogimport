@@ -12,8 +12,6 @@ import (
 	"text/template"
 	"time"
 	"unicode"
-
-	"github.com/conneroisu/groq-go"
 )
 
 type Date time.Time
@@ -102,37 +100,7 @@ var t = template.Must(template.New("").Parse(templ))
 
 func main() {
 
-	var key string
-	var prompt = `You are an expert in Markdown and HTML. You are well-versed in Hugo for creating GitHub Pages.
-
-I have some files that are not 100% compatible with the syntax of Markdown files for Hugo. They need to be fixed following these guidelines:
-
-- I would like to remove the HTML but preserve the formatting that the HTML has, making it compatible with Markdown.
-- I would like to change the script embeds, such as the following example line:
-
-      <script src="https://gist.github.com/vicendominguez/333333.js"></script>
-
-  and replace it with:
-
-      [Gist](https://gist.github.com/vicendominguez/333333.js)
-
-- I would like to achieve good English writing. A bit informal but professional enough for a blog post.
-- I would like it to be compatible with a Hugo template.
-- If the title is not descriptive of the content, I would like to replace it with a short but more appropriate one.
-- If the text does not have enough information for a title, do not change anything.
-- Your response should only and exclusively be the raw code of the file so that it can be copied and pasted.
-- Only in English. Nothing else.
-
-The code is as follows:
-`
 	log.SetFlags(0)
-
-	key = os.Getenv("GROQ_API_KEY")
-
-	groqClient, err := groq.NewClient(key)
-	if err != nil {
-		log.Fatalln("Error creating Groq client:", err)
-	}
 
 	extra := flag.String("extra", "", "additional metadata to set in frontmatter")
 	flag.Parse()
@@ -202,10 +170,10 @@ The code is as follows:
 			continue
 		}
 
-		userPrompt := fmt.Sprintf("%s\n%s", prompt, entry.Content)
-		entry.Content, err = AskGroq(*groqClient, userPrompt)
+		content := entry.Content
+		entry.Content, err = AskOllama(content)
 		if err != nil {
-			log.Fatalf("Failed Asking Groq: %s", err)
+			log.Fatalf("Failed Asking Ollama: %s", err)
 		}
 		if err := writeEntry(entry, dir); err != nil {
 			log.Fatalf("Failed writing post %q to disk:\n%s", entry.Title, err)
@@ -215,8 +183,6 @@ The code is as follows:
 		} else {
 			count++
 		}
-		time.Sleep(20 * time.Second) // api ratio is shitty
-
 	}
 	log.Printf("Wrote %d published posts to disk.", count)
 	log.Printf("Wrote %d drafts to disk.", drafts)
